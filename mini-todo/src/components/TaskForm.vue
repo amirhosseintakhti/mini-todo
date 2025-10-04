@@ -1,12 +1,19 @@
 <script setup>
 import { ref } from 'vue';
 
-const newTask = ref('');
 const emit = defineEmits(['add-task'])
+
+const newTask = ref('');
+const handleSubmit = ()=>{
+  if(newTask.value.trim() === '')return
+  emit('add-task',newTask.value)
+  newTask.value = '';
+}
+
 </script>
 
 <template>
-    <form @submit.prevent="emit('add-task' , newTask) ; newTask='' " class="task-form ">
+    <form @submit.prevent="handleSubmit" class="task-form ">
       <input type="text" v-model="newTask" placeholder="New task...">
       <button type="submit">Add</button>
     </form>

@@ -1,11 +1,12 @@
 <script setup>
 import { reactive } from 'vue';
+import {ref,watch} from 'vue';
 import TaskForm from './components/TaskForm.vue';
 import TaskList from './components/TaskList.vue';
 
 defineEmits(['task-done','remove-task'])
 
-const tasks = reactive([])
+const tasks = reactive(JSON.parse(localStorage.getItem("tasks"))|| []);
 function addTask(task){
   tasks.push({text : task , completed:false})
 }
@@ -17,6 +18,10 @@ function toggleTaskDone(index){
 function toggleRemove(index){
   tasks.splice(index, 1)
 }
+
+watch(tasks, (newTasks) => {
+  localStorage.setItem("tasks", JSON.stringify(newTasks));
+}, {deep:true});
 
 
 
